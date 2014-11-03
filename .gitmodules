@@ -1,0 +1,3 @@
+[submodule "ansible-jenkins"]
+	path = ansible-jenkins
+	url = git@github.com:ICTO/ansible-jenkins.git

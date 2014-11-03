@@ -1,0 +1,28 @@
+---
+- hosts: all
+  user: keru
+  sudo: yes
+
+  vars:
+    tmpdir: /tmp
+  tasks:
+    - name: Apt install some packages
+      apt: name={{ item }} force=yes update_cache=yes
+      with_items:
+        - gcc
+        - make
+        - git
+        - binutils
+        - libc-dev
+        - zlib1g-dev
+        - libssl-dev
+        - libreadline-dev
+        - libncurses-dev
+    - name: git download softether
+      git: repo=https://github.com/SoftEtherVPN/SoftEtherVPN.git dest={{tmpdir}}/vpnserver
+    - name: configure
+      command: cp src/makefiles/linux_64bit.mak Makefile chdir={{tmpdir}}/vpnserver
+    - name: make
+      command: make chdir={{tmpdir}}/vpnserver
+    - name: install
+      command: make install chdir={{tmpdir}}/vpnserver
